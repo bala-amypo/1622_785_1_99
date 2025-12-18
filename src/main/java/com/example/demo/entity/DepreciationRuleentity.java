@@ -1,3 +1,5 @@
 package com.example.demo.entity;
 
-public class DepreciationRule
+public class DepreciationRuleentity{
+    
+}
