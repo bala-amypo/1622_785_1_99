@@ -13,7 +13,8 @@ public Roleentity(){
 
 }
 public Roleentity(Long id,String username){
-    this.
+    this.id=id;
+    this.username=username;
 }
 
 }
