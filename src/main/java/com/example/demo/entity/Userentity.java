@@ -18,7 +18,9 @@ public class Userentity{
     public void setPassword(String password){
         this.password=password;
     }
-    public void setCreatedat(Date 
-    )
+    public void setCreatedat(Date createdAt){
+        this.createdAt=createdAt;
+    }
+    
 
 }
