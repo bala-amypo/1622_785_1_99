@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 @Entity
 public class Roleentity{
 @Id
-@GeneratedValue(stra
+@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String username;
 public void setId(Long id){
