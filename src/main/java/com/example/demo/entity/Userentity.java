@@ -5,7 +5,7 @@ public class Userentity{
     private String username;
     private String email;
     private String password;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdat;
     public void setId(Long id){
         this.id=id;
     }
@@ -18,8 +18,8 @@ public class Userentity{
     public void setPassword(String password){
         this.password=password;
     }
-    public void setCreatedat(Date createdAt){
-        this.createdAt=createdAt;
+    public void setCreatedat(Date createdat){
+        this.createdat=createdat;
     }
     public Long getId(){
         return id;
@@ -27,7 +27,11 @@ public class Userentity{
     public String getEmail(){
         return email;
     }
-    public String 
-    
-
+    public String getPassword(){
+        return password;
+    }
+    public Date getCreatedat(){
+        return  createdat;
+    }
+    public Userentity
 }
