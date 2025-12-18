@@ -33,5 +33,10 @@ public class Userentity{
     public Date getCreatedat(){
         return  createdat;
     }
-    public Userentity
+    public Userentity(){
+
+    }
+    public Userentity(Long id,String username,String email,String password,Date createdat){
+        
+    }
 }
