@@ -36,5 +36,11 @@ public String getPhone(){
 public LocalDateTime getcreatedat(){
     return createdat;
 }
+public Vendorentity(){
 
+}
+public Vendorentity(Long id,String vendorname,String contactemail,String phone,LocalDateTime createdat){
+    this.id=id;
+    this.vendorname=vandor
+}
 }
