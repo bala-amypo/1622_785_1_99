@@ -18,5 +18,5 @@ public class Userentity{
     public void setPassword(String password){
         this.password=password;
     }
-    pu
+    public void 
 }
