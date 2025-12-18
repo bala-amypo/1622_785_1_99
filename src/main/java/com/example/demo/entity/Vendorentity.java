@@ -21,5 +21,20 @@ public void setPhone(String phone){
 public void setCreatedat(LocalDateTime createdat){
     this.createdat=createdat;
 }
-public void 
+public Long getId(){
+    return id;
+}
+public String getVendorname(){
+    return vendorname;
+}
+public String getContactemail(){
+    return contactemail;
+}
+public String getPhone(){
+    return phone;
+}
+public LocalDateTime getcreatedat(){
+    return createdat;
+}
+
 }
