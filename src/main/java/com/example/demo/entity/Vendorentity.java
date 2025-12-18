@@ -1,6 +1,13 @@
 package com.example.demo.entity;
 import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+@Entity
 public class Vendorentity{
+@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String vendorname;
     private String contactemail;
@@ -41,6 +48,9 @@ public Vendorentity(){
 }
 public Vendorentity(Long id,String vendorname,String contactemail,String phone,LocalDateTime createdat){
     this.id=id;
-    this.vendorname=vandor
+    this.vendorname=vandorname;
+    this.contactemail=contactemail;
+    this.phone=phone;
+    this.createdat=createdat;
 }
 }
