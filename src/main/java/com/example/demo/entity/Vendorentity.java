@@ -6,5 +6,13 @@ public class Vendorentity{
     private String contactemail;
     private String phone;
     private String createdat;
-public void 
+public void setId(Long id){
+    this.id=id;
+}
+public void setVendorname(String vendorname){
+    this.vendorname=vendorname;
+}
+public void setContactemail(String contactemail){
+    this.
+}
 }
