@@ -37,6 +37,10 @@ public class Userentity{
 
     }
     public Userentity(Long id,String username,String email,String password,Date createdat){
-        
+        this.id=id;
+        this.username=username;
+        this.email=email;
+        this.password=password;
+        this.createdat=createdat;
     }
 }
