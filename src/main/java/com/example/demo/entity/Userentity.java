@@ -21,6 +21,13 @@ public class Userentity{
     public void setCreatedat(Date createdAt){
         this.createdAt=createdAt;
     }
+    public Long getId(){
+        return id;
+    }
+    public String getEmail(){
+        return email;
+    }
+    public String 
     
 
 }
