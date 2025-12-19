@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.Userentity;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Userentity,Long>{
+public interface RoleRepository extends JpaRepositoryRoleentity,Long>{
 
 }
