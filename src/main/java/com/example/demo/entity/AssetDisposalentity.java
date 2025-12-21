@@ -15,7 +15,7 @@ public class AssetDisposalentity {
     private LocalDateTime createdAt;
     @OneToOne
     @JoinColumn(name = "asset_id")
-    private Asset asset;
+    private AssetDisposalentity asset;
     public AssetDisposalentity() {
     }
 
