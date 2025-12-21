@@ -19,6 +19,7 @@ public void setId(Long id){
 public void setVendorname(String vendorname){
     this.vendorname=vendorname;
 }
+@Email
 public void setContactemail(String contactemail){
     this.contactemail=contactemail;
 }
@@ -46,7 +47,7 @@ public LocalDateTime getcreatedat(){
 public Vendorentity(){
 
 }
-public Vendorentity(Long id,String vendorname,String contactemail,String phone,LocalDateTime createdat){
+public Vendorentity(Long id,String vendorname,@Email String contactemail,String phone,LocalDateTime createdat){
     this.id=id;
     this.vendorname=vendorname;
     this.contactemail=contactemail;
