@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 @Entity
 @Table(name = "assets")
-public class Asset {
+public class Assetentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,10 +20,10 @@ public class Asset {
     @OneToOne(mappedBy = "asset")
     private AssetDisposal disposal;
 
-    public Asset() {
+    public Assetentity() {
     }
 
-    public Asset(String assetTag, String assetName, LocalDate purchaseDate, Double purchaseCost) {
+    public Assetentity(String assetTag, String assetName, LocalDate purchaseDate, Double purchaseCost) {
         this.assetTag = assetTag;
         this.assetName = assetName;
         this.purchaseDate = purchaseDate;

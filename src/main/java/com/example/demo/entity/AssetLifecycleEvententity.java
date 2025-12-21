@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
-public class AssetLifecycleEvent {
+public class AssetLifecycleEvententity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,10 +12,10 @@ public class AssetLifecycleEvent {
     private LocalDate eventDate;
     private LocalDateTime loggedAt;
 
-    public AssetLifecycleEvent() {
+    public AssetLifecycleEvententity() {
     }
 
-    public AssetLifecycleEvent(Asset asset, String eventType, String eventDescription, LocalDate eventDate) {
+    public AssetLifecycleEvententity(Asset asset, String eventType, String eventDescription, LocalDate eventDate) {
         this.asset = asset;
         this.eventType = eventType;
         this.eventDescription = eventDescription;

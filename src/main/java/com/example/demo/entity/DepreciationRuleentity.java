@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 @Entity
-public class DepreciationRule {
+public class DepreciationRuleentity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,10 +15,10 @@ public class DepreciationRule {
     private Double salvageValue;
     private LocalDateTime createdAt;
 
-    public DepreciationRule() {
+    public DepreciationRuleentity() {
     }
 
-    public DepreciationRule(String ruleName, String method, Integer usefulLifeYears, Double salvageValue) {
+    public DepreciationRuleentity(String ruleName, String method, Integer usefulLifeYears, Double salvageValue) {
         this.ruleName = ruleName;
         this.method = method;
         this.usefulLifeYears = usefulLifeYears;

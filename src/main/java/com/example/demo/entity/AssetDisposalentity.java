@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "asset_disposals")
-public class AssetDisposal {
+public class AssetDisposalentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,10 +16,10 @@ public class AssetDisposal {
     @OneToOne
     @JoinColumn(name = "asset_id")
     private Asset asset;
-    public AssetDisposal() {
+    public AssetDisposalentity() {
     }
 
-    public AssetDisposal(Asset asset, String disposalMethod, Double disposalValue,
+    public AssetDisposalentity(Asset asset, String disposalMethod, Double disposalValue,
                          LocalDate disposalDate, User approvedBy) {
         this.asset = asset;
         this.disposalMethod = disposalMethod;
