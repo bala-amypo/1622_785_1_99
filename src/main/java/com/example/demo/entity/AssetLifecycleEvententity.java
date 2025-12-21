@@ -18,6 +18,7 @@ public class AssetLifecycleEvententity {
     @NotNull(message="EventType is required") 
     private String eventType;
     private String eventDescription;
+    @PastOrPresent(message = "Eventdate cannot be in the future")
     private LocalDate eventDate;
     private LocalDateTime loggedAt = LocalDateTime.now();
 }
