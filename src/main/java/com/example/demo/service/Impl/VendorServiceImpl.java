@@ -1,38 +1,30 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.entity.Asset;
-import com.example.demo.repository.AssetRepository;
-import com.example.demo.service.AssetService;
+package com.example.demo.service.Impl;
+import com.example.demo.entity.Vendorentity;
+import com.example.demo.repository.VendorRepository;
+import com.example.demo.service.VendorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AssetServiceImpl implements AssetService {
+public class VendorServiceImpl implements VendorService {
 
-    private final AssetRepository assetRepository;
+    @Autowired
+    private VendorRepository vendorRepository;
 
-    public AssetServiceImpl(AssetRepository assetRepository) {
-        this.assetRepository = assetRepository;
+    @Override
+    public Vendorentity saveVendor(Vendorentity vendor) {
+        return vendorRepository.save(vendor);
     }
 
     @Override
-    public Asset saveAsset(Asset asset) {
-        return assetRepository.save(asset);
+    public List<Vendorentity> getAllVendors() {
+        return vendorRepository.findAll();
     }
 
     @Override
-    public List<Asset> getAllAssets() {
-        return assetRepository.findAll();
-    }
-
-    @Override
-    public List<Asset> getAssetsByStatus(String status) {
-        return assetRepository.findByStatus(status);
-    }
-
-    @Override
-    public Asset getAssetById(Long id) {
-        return assetRepository.findById(id).orElse(null);
+    public Vendorentity getVendorById(Long id) {
+        return vendorRepository.findById(id).orElse(null);
     }
 }
