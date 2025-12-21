@@ -3,7 +3,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
-
 @Entity
 @Table(name = "assets")
 public class Asset {
@@ -17,16 +16,6 @@ public class Asset {
     private Double purchaseCost;
     private String status; // ACTIVE, MAINTENANCE, DISPOSED
     private LocalDateTime createdAt;
-    @ManyToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
-
-    @ManyToOne
-    @JoinColumn(name = "rule_id")
-    private DepreciationRule depreciationRule;
-
-    @OneToMany(mappedBy = "asset")
-    private Set<AssetLifecycleEvent> lifecycleEvents;
 
     @OneToOne(mappedBy = "asset")
     private AssetDisposal disposal;
@@ -42,6 +31,4 @@ public class Asset {
         this.status = "ACTIVE";
         this.createdAt = LocalDateTime.now();
     }
-
-    // Getters and Setters
 }
