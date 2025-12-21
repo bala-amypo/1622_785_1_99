@@ -1,5 +1,5 @@
 package com.example.demo.controller;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.entity.Assetentity;
 import com.example.demo.service.AssetService;
 import org.springframework.web.bind.annotation.*;
