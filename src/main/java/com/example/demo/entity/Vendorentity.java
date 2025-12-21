@@ -1,8 +1,8 @@
 package com.example.demo.entity;
 import java.time.LocalDateTime;
 import jakarta.persistence.Entity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 @Entity
