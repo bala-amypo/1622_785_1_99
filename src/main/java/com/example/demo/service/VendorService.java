@@ -3,9 +3,12 @@ import com.example.demo.entity.Vendorentity;
 import java.util.List;
 
 public interface VendorService {
-    Vendorentity postdata(Vendorentity ven);
-    List<Vendorentity>getalldata();
-    String deletedata(int id);
-    Vendorentity getdata(int id);
-    Vendorentity putdata(int id,Vendorentity ven);
+
+    Vendorentity saveVendor(Vendorentity vendor);
+
+    List<Vendorentity> getAllVendors();
+
+    Vendorentity getVendorById(Long id);
+
+    void deleteVendor(Long id);
 }
