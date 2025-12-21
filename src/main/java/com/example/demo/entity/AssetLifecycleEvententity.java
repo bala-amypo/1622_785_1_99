@@ -9,25 +9,14 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class AssetLifecycleEvententity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private Long assetId; // storing assetId instead of relationship
-
-    @Column(nullable = false)
+    private Long assetId; 
     private String eventType;
-
-    @Column(nullable = false)
     private String eventDescription;
-
-    @Column(nullable = false)
     private LocalDate eventDate;
-
-    @Column(nullable = false)
     private LocalDateTime loggedAt = LocalDateTime.now();
 }
