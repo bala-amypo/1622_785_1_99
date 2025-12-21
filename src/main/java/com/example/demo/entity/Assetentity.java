@@ -14,11 +14,8 @@ public class Assetentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true, nullable = false)
     private String assetTag;
-
-    @Column(nullable = false)
+    @NotNull
     private String assetName;
 
     @Column(nullable = false)
