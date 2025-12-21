@@ -18,13 +18,13 @@ public class AssetLifecycleEventController {
 
     // CREATE
     @PostMapping
-    public AssetLifecycleEvent saveEvent(@RequestBody AssetLifecycleEvent event) {
+    public AssetLifecycleEvententity saveEvent(@RequestBody AssetLifecycleEvententity event) {
         return eventService.saveEvent(event);
     }
 
     // READ ALL
     @GetMapping
-    public List<AssetLifecycleEvent> getAllEvents() {
+    public List<AssetLifecycleEvententity> getAllEvents() {
         return eventService.getAllEvents();
     }
 }
