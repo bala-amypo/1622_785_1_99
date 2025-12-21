@@ -9,8 +9,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/disposals")
 public class AssetDisposalController {
-
-    private final AssetDisposalService disposalService;
+@Autowired
+    private  AssetDisposalService disposalService;
 
     public AssetDisposalController(AssetDisposalService disposalService) {
         this.disposalService = disposalService;

@@ -9,8 +9,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/vendors")
 public class VendorController {
-
-    private final VendorService vendorService;
+@Autowired
+    private VendorService vendorService;
 
     public VendorController(VendorService vendorService) {
         this.vendorService = vendorService;

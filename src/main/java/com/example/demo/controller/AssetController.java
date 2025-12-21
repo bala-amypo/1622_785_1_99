@@ -9,8 +9,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/assets")
 public class AssetController {
-
-    private final AssetService assetService;
+@Autowired
+    private  AssetService assetService;
 
     public AssetController(AssetService assetService) {
         this.assetService = assetService;
