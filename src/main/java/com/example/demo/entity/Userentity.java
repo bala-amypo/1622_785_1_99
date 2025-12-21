@@ -25,7 +25,7 @@ public class Userentity{
     public void setPassword(String password){
         this.password=password;
     }
-    public void setCreatedat(Date createdat){
+    public void setCreatedat(LocalDateTime createdat){
         this.createdat=createdat;
     }
     public Long getId(){
@@ -37,13 +37,13 @@ public class Userentity{
     public String getPassword(){
         return password;
     }
-    public Date getCreatedat(){
+    public LocalDateTime getCreatedat(){
         return  createdat;
     }
     public Userentity(){
 
     }
-    public Userentity(Long id,String username,String email,String password,Date createdat){
+    public Userentity(Long id,String username,String email,String password,LocalDateTime createdat){
         this.id=id;
         this.username=username;
         this.email=email;

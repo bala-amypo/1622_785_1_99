@@ -48,7 +48,7 @@ public Vendorentity(){
 }
 public Vendorentity(Long id,String vendorname,String contactemail,String phone,LocalDateTime createdat){
     this.id=id;
-    this.vendorname=vandorname;
+    this.vendorname=vendorname;
     this.contactemail=contactemail;
     this.phone=phone;
     this.createdat=createdat;
