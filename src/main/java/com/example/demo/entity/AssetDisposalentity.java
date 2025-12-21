@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class AssetDisposal {
+public class AssetDisposalentity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class AssetDisposal {
     /* One-to-One relationship with Asset (as per source) */
     @OneToOne
     @JoinColumn(name = "asset_id")
-    private Asset asset;
+    private Assetentity asset;
 
     /* Kept simple to avoid User relationship issues */
     private String approvedBy;

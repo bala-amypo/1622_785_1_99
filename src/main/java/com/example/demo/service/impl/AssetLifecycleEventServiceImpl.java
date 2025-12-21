@@ -1,4 +1,4 @@
-package com.example.demo.service.Impl;
+package com.example.demo.service.impl;
 import com.example.demo.entity.AssetLifecycleEvententity;
 import com.example.demo.repository.AssetLifecycleEventRepository;
 import com.example.demo.service.AssetLifecycleEventService;
