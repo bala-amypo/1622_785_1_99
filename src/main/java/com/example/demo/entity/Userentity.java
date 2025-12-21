@@ -19,6 +19,7 @@ public class Userentity{
     public void setUsername(String username){
         this.username=username;
     }
+    @Email
     public void setEmail(String email){
         this.email=email;
     }
@@ -43,7 +44,7 @@ public class Userentity{
     public Userentity(){
 
     }
-    public Userentity(Long id,String username,String email,String password,LocalDateTime createdat){
+    public Userentity(Long id,String username,@Email String email,String password,LocalDateTime createdat){
         this.id=id;
         this.username=username;
         this.email=email;
