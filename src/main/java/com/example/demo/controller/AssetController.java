@@ -36,7 +36,7 @@ public class AssetController {
 
     // READ BY ID
     @GetMapping("/{id}")
-    public Asset getAssetById(@PathVariable Long id) {
+    public Assetentity getAssetById(@PathVariable Long id) {
         return assetService.getAssetById(id);
     }
 }
