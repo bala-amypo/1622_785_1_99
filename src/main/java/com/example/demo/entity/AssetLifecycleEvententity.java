@@ -14,7 +14,8 @@ public class AssetLifecycleEvententity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long assetId; 
+    private Long assetId;
+    @NotNull(message="EventType is required") 
     private String eventType;
     private String eventDescription;
     private LocalDate eventDate;
