@@ -14,8 +14,11 @@ public class AssetDisposalentity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate disposalDate;
-    private String disposal;
+    private String disposalMethod;
+    @Positive
+    private Double disposalValue;
     private String approvedBy;
+    private LocalDateTime createdat;
     @OneToOne
     @JoinColumn(name = "asset_id")
     private Assetentity asset;
