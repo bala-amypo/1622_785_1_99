@@ -16,13 +16,11 @@ public class AssetDisposalController {
         this.disposalService = disposalService;
     }
 
-    // CREATE
     @PostMapping
     public AssetDisposalentity saveDisposal(@RequestBody AssetDisposalentity disposal) {
         return disposalService.saveDisposal(disposal);
     }
 
-    // READ ALL
     @GetMapping
     public List<AssetDisposalentity> getAllDisposals() {
         return disposalService.getAllDisposals();
