@@ -1,12 +1,10 @@
 package com.example.demo.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "assets")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
