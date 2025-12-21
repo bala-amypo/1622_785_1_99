@@ -1,8 +1,8 @@
 package com.example.demo.entity;
 import java.time.LocalDateTime;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 @Entity
@@ -13,6 +13,7 @@ public class Vendorentity{
     private String vendorname;
     private String contactemail;
     private String phone;
+    @PrePersist
     private LocalDateTime createdat;
 public void setId(Long id){
     this.id=id;
@@ -48,7 +49,7 @@ public LocalDateTime getcreatedat(){
 public Vendorentity(){
 
 }
-public Vendorentity(Long id,String vendorname,@Email String contactemail,String phone,LocalDateTime createdat){
+public Vendorentity(Long id,String vendorname,@Email String contactemail,String phone,@PrePersist LocalDateTime createdat){
     this.id=id;
     this.vendorname=vendorname;
     this.contactemail=contactemail;
