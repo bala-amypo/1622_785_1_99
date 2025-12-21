@@ -18,7 +18,6 @@ public class AssetDisposalentity {
     private AssetDisposalentity asset;
     public AssetDisposalentity() {
     }
-
     public AssetDisposalentity(Asset asset, String disposalMethod, Double disposalValue,
                          LocalDate disposalDate, User approvedBy) {
         this.asset = asset;

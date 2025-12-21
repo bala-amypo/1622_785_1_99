@@ -18,7 +18,7 @@ public class Assetentity {
     private LocalDateTime createdAt;
 
     @OneToOne(mappedBy = "asset")
-    private AssetDisposal disposal;
+    private AssetDisposalentity disposal;
 
     public Assetentity() {
     }
