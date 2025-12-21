@@ -15,26 +15,18 @@ public class AssetController {
     public AssetController(AssetService assetService) {
         this.assetService = assetService;
     }
-
-    // CREATE
     @PostMapping
     public Assetentity saveAsset(@RequestBody Assetentity asset) {
         return assetService.saveAsset(asset);
     }
-
-    // READ ALL
     @GetMapping
     public List<Assetentity> getAllAssets() {
         return assetService.getAllAssets();
     }
-
-    // READ BY STATUS
     @GetMapping("/status/{status}")
     public List<Assetentity> getAssetsByStatus(@PathVariable String status) {
         return assetService.getAssetsByStatus(status);
     }
-
-    // READ BY ID
     @GetMapping("/{id}")
     public Assetentity getAssetById(@PathVariable Long id) {
         return assetService.getAssetById(id);
