@@ -2,6 +2,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity

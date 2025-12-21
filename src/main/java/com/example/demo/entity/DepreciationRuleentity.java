@@ -1,5 +1,5 @@
 package com.example.demo.entity;
-
+import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
