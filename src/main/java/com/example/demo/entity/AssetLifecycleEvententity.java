@@ -3,7 +3,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
-@Table(name = "asset_lifecycle_events")
 public class AssetLifecycleEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +22,4 @@ public class AssetLifecycleEvent {
         this.eventDate = eventDate;
         this.loggedAt = LocalDateTime.now();
     }
-
-    // Getters and Setters
 }
