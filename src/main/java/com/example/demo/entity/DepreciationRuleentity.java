@@ -1,28 +1,32 @@
 package com.example.demo.entity;
+
 import jakarta.persistence.*;
+import lombok.*;
 import java.time.LocalDateTime;
-import java.util.Set;
+
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DepreciationRuleentity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true, nullable = false)
     private String ruleName;
+
+    @Column(nullable = false)
     private String method; // STRAIGHT_LINE / DECLINING_BALANCE
+
+    @Column(nullable = false)
     private Integer usefulLifeYears;
+
+    @Column(nullable = false)
     private Double salvageValue;
-    private LocalDateTime createdAt;
 
-    public DepreciationRuleentity() {
-    }
-
-    public DepreciationRuleentity(String ruleName, String method, Integer usefulLifeYears, Double salvageValue) {
-        this.ruleName = ruleName;
-        this.method = method;
-        this.usefulLifeYears = usefulLifeYears;
-        this.salvageValue = salvageValue;
-        this.createdAt = LocalDateTime.now();
-    }
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
