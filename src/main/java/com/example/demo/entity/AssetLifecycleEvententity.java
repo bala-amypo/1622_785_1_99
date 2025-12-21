@@ -15,8 +15,8 @@ public class AssetLifecycleEvententity {
     public AssetLifecycleEvententity() {
     }
 
-    public AssetLifecycleEvententity(Asset asset, String eventType, String eventDescription, LocalDate eventDate) {
-        this.asset = asset;
+    public AssetLifecycleEvententity(Long id, String eventType, String eventDescription, LocalDate eventDate) {
+        this.id = id;
         this.eventType = eventType;
         this.eventDescription = eventDescription;
         this.eventDate = eventDate;
