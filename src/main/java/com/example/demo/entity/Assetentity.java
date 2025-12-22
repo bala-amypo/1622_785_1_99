@@ -24,5 +24,5 @@ public class Assetentity {
     private Double purchaseCost;
     private Long depreciationRuleId; 
     private String status = "ACTIVE";
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt ;
 }
