@@ -1,58 +1,36 @@
 package com.example.demo.entity;
-import java.time.LocalDateTime;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-@Entity
-public class Vendorentity{
-@Id
-@GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-    private String vendorname;
-    private String contactemail;
-    private String phone;
-    private LocalDateTime createdat;
-public void setId(Long id){
-    this.id=id;
-}
-public void setVendorname(String vendorname){
-    this.vendorname=vendorname;
-}
-@Email
-public void setContactemail(String contactemail){
-    this.contactemail=contactemail;
-}
-public void setPhone(String phone){
-    this.phone=phone;
-}
-public void setCreatedat(LocalDateTime createdat){
-    this.createdat=createdat;
-}
-public Long getId(){
-    return id;
-}
-public String getVendorname(){
-    return vendorname;
-}
-public String getContactemail(){
-    return contactemail;
-}
-public String getPhone(){
-    return phone;
-}
-public LocalDateTime getcreatedat(){
-    return createdat;
-}
-public Vendorentity(){
 
-}
-public Vendorentity(Long id,String vendorname,@Email String contactemail,String phone, LocalDateTime createdat){
-    this.id=id;
-    this.vendorname=vendorname;
-    this.contactemail=contactemail;
-    this.phone=phone;
-    this.createdat=createdat;
-}
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Vendorentity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Vendor name must not be blank")
+    @Column(nullable = false, unique = true)
+    private String vendorName;
+
+    @NotBlank(message = "Contact email must not be blank")
+    @Email(message = "Contact email must be a valid email address")
+    @Column(nullable = false)
+    private String contactEmail;
+
+    @Column
+    private String phone;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 }
