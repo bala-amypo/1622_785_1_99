@@ -24,7 +24,6 @@ public class Vendorentity {
     private String vendorName;
     @NotBlank(message = "Contact email must not be blank")
     @Email(message = "Contact email must be a valid email address")
-    @Column(nullable = false)
     private String contactEmail;
     private String phone;
     @Column(nullable = false)
