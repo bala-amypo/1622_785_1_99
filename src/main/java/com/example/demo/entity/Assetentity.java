@@ -14,7 +14,7 @@ public class Assetentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @Column(unique=true)
     private String assetTag;
     @NotNull
     private String assetName;
