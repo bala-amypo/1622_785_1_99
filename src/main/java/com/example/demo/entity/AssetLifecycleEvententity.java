@@ -1,7 +1,11 @@
 package com.example.demo.entity;
-import jakarta.validation.constraints.*;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -9,16 +13,27 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AssetLifecycleEvententity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long assetId;
-    @NotNull(message="EventType is required") 
+
+    @NotBlank(message = "Event type is required")
     private String eventType;
+
+    @NotBlank(message = "Event description cannot be blank")
     private String eventDescription;
-    @PastOrPresent(message = "Eventdate cannot be in the future")
+
+    @NotNull(message = "Event date is required")
+    @PastOrPresent(message = "Event date cannot be in the future")
     private LocalDate eventDate;
-    private LocalDateTime loggedAt = LocalDateTime.now();
+
+    private LocalDateTime loggedAt;
+
+    @PrePersist
+    public void onCreate() {
+        this.loggedAt = LocalDateTime.now();
+    }
 }
