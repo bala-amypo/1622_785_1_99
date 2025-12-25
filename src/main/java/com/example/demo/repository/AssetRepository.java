@@ -1,11 +1,16 @@
 package com.example.demo.repository;
 
+import com.example.demo.entity.Asset;
+import com.example.demo.entity.Vendor;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.demo.entity.Assetentity;
+public interface AssetRepository extends JpaRepository<Asset, Long> {
 
-public interface AssetRepository extends JpaRepository<Assetentity, Long> {
+    List<Asset> findByVendor(Vendor vendor);
 
-    List<Assetentity> findByStatus(String status);
+    List<Asset> findByStatus(String status);
+
+    boolean existsByAssetTag(String assetTag);
 }

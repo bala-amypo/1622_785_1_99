@@ -1,9 +1,15 @@
 package com.example.demo.service;
-import com.example.demo.entity.Assetentity;
+
+import com.example.demo.entity.Asset;
 import java.util.List;
+
 public interface AssetService {
-    Assetentity saveAsset(Assetentity asset);
-    List<Assetentity> getAllAssets();
-    List<Assetentity> getAssetsByStatus(String status);
-    Assetentity getAssetById(Long id);
+
+    Asset saveAsset(Asset asset);
+
+    Asset getAssetById(Long id);
+
+    List<Asset> getAllAssets();
+
+    List<Asset> getAssetsByStatus(String status);
 }
