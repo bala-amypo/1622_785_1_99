@@ -1,43 +1,28 @@
 package com.example.demo.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Set;
 
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "secretkey";
+    private final String SECRET = "secret-key";
 
-    public String generateToken(String email, Long userId, Set<String> roles) {
-
+    public String generateToken(String username) {
         return Jwts.builder()
-                .claim("email", email)
-                .claim("userId", userId)
-                .claim("roles", roles)
+                .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)) // 1 day
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
 
-    public Claims extractAllClaims(String token) {
+    public Claims extractClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            extractAllClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 }

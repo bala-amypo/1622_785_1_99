@@ -1,9 +1,8 @@
 package com.example.demo.controller;
-
+import com.example.demo.util.JwtUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.security.JwtUtil;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
