@@ -1,28 +1,16 @@
-package com.example.demo.entity;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-
-
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class AssetDisposalentity {
+public class AssetDisposal {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
-    private LocalDate disposalDate;
-    private String disposalMethod;
-    @Positive
-    private Double disposalValue;
-    private String approvedBy;
-    private LocalDateTime createdat;
-    @OneToOne
-    @JoinColumn(name = "asset_id")
-    private Assetentity asset;
 
+    private String disposalMethod;
+    private Double disposalValue;
+    private LocalDate disposalDate;
+
+    @ManyToOne
+    private Asset asset;
+
+    @ManyToOne
+    private User approvedBy;
 }
