@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
-import com.example.demo.entity.AssetLifecycleEvententity;
+
+import com.example.demo.entity.AssetLifecycleEvent;
 import com.example.demo.repository.AssetLifecycleEventRepository;
 import com.example.demo.service.AssetLifecycleEventService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,16 +10,19 @@ import java.util.List;
 @Service
 public class AssetLifecycleEventServiceImpl implements AssetLifecycleEventService {
 
-    @Autowired
-    private AssetLifecycleEventRepository eventRepository;
+    private final AssetLifecycleEventRepository eventRepository;
+
+    public AssetLifecycleEventServiceImpl(AssetLifecycleEventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     @Override
-    public AssetLifecycleEvententity saveEvent(AssetLifecycleEvententity event) {
+    public AssetLifecycleEvent saveEvent(AssetLifecycleEvent event) {
         return eventRepository.save(event);
     }
 
     @Override
-    public List<AssetLifecycleEvententity> getAllEvents() {
-        return eventRepository.findAll();
+    public List<AssetLifecycleEvent> getEventsByAssetId(Long assetId) {
+        return eventRepository.findByAssetIdOrderByEventDateDesc(assetId);
     }
 }

@@ -1,24 +1,34 @@
 package com.example.demo.service.impl;
-import com.example.demo.entity.AssetDisposalentity;
+
+import com.example.demo.entity.AssetDisposal;
+import com.example.demo.entity.User;
 import com.example.demo.repository.AssetDisposalRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.AssetDisposalService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class AssetDisposalServiceImpl implements AssetDisposalService {
 
-    @Autowired
-    private AssetDisposalRepository disposalRepository;
+    private final AssetDisposalRepository disposalRepository;
+    private final UserRepository userRepository;
+
+    public AssetDisposalServiceImpl(AssetDisposalRepository disposalRepository,
+                                    UserRepository userRepository) {
+        this.disposalRepository = disposalRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
-    public AssetDisposalentity saveDisposal(AssetDisposalentity disposal) {
+    public AssetDisposal saveDisposal(AssetDisposal disposal) {
         return disposalRepository.save(disposal);
     }
 
     @Override
-    public List<AssetDisposalentity> getAllDisposals() {
-        return disposalRepository.findAll();
+    public List<AssetDisposal> getDisposalsByApprover(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return disposalRepository.findByApprovedBy(user);
     }
 }

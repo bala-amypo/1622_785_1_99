@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
-import com.example.demo.entity.Assetentity;
+
+import com.example.demo.entity.Asset;
 import com.example.demo.repository.AssetRepository;
 import com.example.demo.service.AssetService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,26 +10,29 @@ import java.util.List;
 @Service
 public class AssetServiceImpl implements AssetService {
 
-    @Autowired
-    private AssetRepository assetRepository;
+    private final AssetRepository assetRepository;
+
+    public AssetServiceImpl(AssetRepository assetRepository) {
+        this.assetRepository = assetRepository;
+    }
 
     @Override
-    public Assetentity saveAsset(Assetentity asset) {
+    public Asset saveAsset(Asset asset) {
         return assetRepository.save(asset);
     }
 
     @Override
-    public List<Assetentity> getAllAssets() {
+    public Asset getAssetById(Long id) {
+        return assetRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<Asset> getAllAssets() {
         return assetRepository.findAll();
     }
 
     @Override
-    public List<Assetentity> getAssetsByStatus(String status) {
+    public List<Asset> getAssetsByStatus(String status) {
         return assetRepository.findByStatus(status);
-    }
-
-    @Override
-    public Assetentity getAssetById(Long id) {
-        return assetRepository.findById(id).orElse(null);
     }
 }

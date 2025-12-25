@@ -1,10 +1,11 @@
 package com.example.demo.service;
-import com.example.demo.entity.AssetLifecycleEvententity;
+
+import com.example.demo.entity.AssetLifecycleEvent;
 import java.util.List;
 
 public interface AssetLifecycleEventService {
 
-    AssetLifecycleEvententity saveEvent(AssetLifecycleEvententity event);
+    AssetLifecycleEvent saveEvent(AssetLifecycleEvent event);
 
-    List<AssetLifecycleEvententity> getAllEvents();
+    List<AssetLifecycleEvent> getEventsByAssetId(Long assetId);
 }

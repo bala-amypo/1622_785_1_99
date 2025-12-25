@@ -1,9 +1,11 @@
 package com.example.demo.service;
-import com.example.demo.entity.AssetDisposalentity;
+
+import com.example.demo.entity.AssetDisposal;
 import java.util.List;
 
 public interface AssetDisposalService {
 
-    AssetDisposalentity saveDisposal(AssetDisposalentity disposal);
-    List<AssetDisposalentity> getAllDisposals();
+    AssetDisposal saveDisposal(AssetDisposal disposal);
+
+    List<AssetDisposal> getDisposalsByApprover(Long userId);
 }
