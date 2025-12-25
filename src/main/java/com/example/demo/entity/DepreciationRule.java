@@ -1,21 +1,30 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+
 @Entity
-@Table(name="depreciation_rules", uniqueConstraints = @UniqueConstraint(columnNames = "ruleName"))
+@Table(name = "depreciation_rules")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DepreciationRule {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
+    @Column(unique = true)
     private String ruleName;
 
-    @NotBlank
-    private String method;
-
-    @Min(1)
+    @Min(0)
     private int usefulLifeYears;
 
     @Min(0)
-    private Double salvageValue;
-
-    // getters/setters
+    private double depreciationRate;
 }
