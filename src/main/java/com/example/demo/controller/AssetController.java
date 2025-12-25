@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Assetentity;
+import com.example.demo.entity.Asset;
 import com.example.demo.service.AssetService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,26 +11,29 @@ import java.util.List;
 @RequestMapping("/api/assets")
 public class AssetController {
 
-    @Autowired
-    private AssetService assetService;
+    private final AssetService assetService;
+
+    public AssetController(AssetService assetService) {
+        this.assetService = assetService;
+    }
 
     @PostMapping
-    public Assetentity saveAsset(@Valid @RequestBody Assetentity asset) {
+    public Asset createAsset(@Valid @RequestBody Asset asset) {
         return assetService.saveAsset(asset);
     }
 
     @GetMapping
-    public List<Assetentity> getAllAssets() {
+    public List<Asset> getAllAssets() {
         return assetService.getAllAssets();
     }
 
-    @GetMapping("/status/{status}")
-    public List<Assetentity> getAssetsByStatus(@PathVariable String status) {
-        return assetService.getAssetsByStatus(status);
+    @GetMapping("/{id}")
+    public Asset getAssetById(@PathVariable Long id) {
+        return assetService.getAssetById(id);
     }
 
-    @GetMapping("/{id}")
-    public Assetentity getAssetById(@PathVariable Long id) {
-        return assetService.getAssetById(id);
+    @GetMapping("/status/{status}")
+    public List<Asset> getAssetsByStatus(@PathVariable String status) {
+        return assetService.getAssetsByStatus(status);
     }
 }

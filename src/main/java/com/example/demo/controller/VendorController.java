@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Vendorentity;
+import com.example.demo.entity.Vendor;
 import com.example.demo.service.VendorService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,25 +11,24 @@ import java.util.List;
 @RequestMapping("/api/vendors")
 public class VendorController {
 
-    @Autowired
-    private VendorService vendorService;
+    private final VendorService vendorService;
 
     public VendorController(VendorService vendorService) {
         this.vendorService = vendorService;
     }
 
     @PostMapping
-    public Vendorentity saveVendor(@Valid @RequestBody Vendorentity vendor) {
+    public Vendor createVendor(@Valid @RequestBody Vendor vendor) {
         return vendorService.saveVendor(vendor);
     }
 
     @GetMapping
-    public List<Vendorentity> getAllVendors() {
+    public List<Vendor> getAllVendors() {
         return vendorService.getAllVendors();
     }
 
     @GetMapping("/{id}")
-    public Vendorentity getVendorById(@PathVariable Long id) {
+    public Vendor getVendorById(@PathVariable Long id) {
         return vendorService.getVendorById(id);
     }
 }

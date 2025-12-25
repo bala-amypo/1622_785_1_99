@@ -1,7 +1,8 @@
 package com.example.demo.controller;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.example.demo.entity.AssetLifecycleEvententity;
+
+import com.example.demo.entity.AssetLifecycleEvent;
 import com.example.demo.service.AssetLifecycleEventService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,20 +10,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/events")
 public class AssetLifecycleEventController {
-@Autowired
-    private  AssetLifecycleEventService eventService;
+
+    private final AssetLifecycleEventService eventService;
 
     public AssetLifecycleEventController(AssetLifecycleEventService eventService) {
         this.eventService = eventService;
     }
 
     @PostMapping
-    public AssetLifecycleEvententity saveEvent(@RequestBody AssetLifecycleEvententity event) {
+    public AssetLifecycleEvent createEvent(@Valid @RequestBody AssetLifecycleEvent event) {
         return eventService.saveEvent(event);
     }
 
-    @GetMapping
-    public List<AssetLifecycleEvententity> getAllEvents() {
-        return eventService.getAllEvents();
+    @GetMapping("/asset/{assetId}")
+    public List<AssetLifecycleEvent> getEventsByAsset(@PathVariable Long assetId) {
+        return eventService.getEventsByAssetId(assetId);
     }
 }
