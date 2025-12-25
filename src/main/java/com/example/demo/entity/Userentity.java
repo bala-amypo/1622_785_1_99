@@ -1,36 +1,23 @@
-package com.example.demo.entity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
-
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Userentity {
+@Table(name = "users")
+public class User {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
 
-    @NotBlank(message = "Name must not be blank")
-    @Column(nullable = false)
-    private String name;
-
-    @NotBlank(message = "Email must not be blank")
-    @Email(message = "Email must be a valid email address")
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Password must not be blank")
-    @Column(nullable = false)
+    private String name;
     private String password;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = @JoinColumn(name="user_id"),
+        inverseJoinColumns = @JoinColumn(name="role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    // getters/setters
 }

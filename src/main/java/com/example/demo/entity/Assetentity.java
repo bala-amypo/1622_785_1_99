@@ -1,29 +1,26 @@
-package com.example.demo.entity;
-import jakarta.persistence.*;
-import lombok.*;
-import java.time.LocalDate;
-import jakarta.validation.constraints.*;
-import java.time.LocalDateTime;
-
-
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Assetentity {
+@Table(name="assets", uniqueConstraints = @UniqueConstraint(columnNames="assetTag"))
+public class Asset {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
-    @Column(unique=true)
+
+    @NotBlank
     private String assetTag;
-    @NotNull
+
     private String assetName;
-    private Long vendorId; 
     private LocalDate purchaseDate;
-    @Positive
+
+    @Min(0)
     private Double purchaseCost;
-    private Long depreciationRuleId; 
+
     private String status = "ACTIVE";
-    private LocalDateTime createdAt ;
+
+    @ManyToOne
+    private Vendor vendor;
+
+    @ManyToOne
+    private DepreciationRule depreciationRule;
+
+    // getters/setters
 }

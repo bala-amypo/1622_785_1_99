@@ -1,41 +1,21 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class DepreciationRuleentity {
+@Table(name="depreciation_rules", uniqueConstraints = @UniqueConstraint(columnNames = "ruleName"))
+public class DepreciationRule {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
 
-    @NotBlank(message = "Rule name must not be blank")
-    @Column(nullable = false, unique = true)
+    @NotBlank
     private String ruleName;
 
-    @NotBlank(message = "Method must not be blank")
-    @Column(nullable = false)
+    @NotBlank
     private String method;
-    @Positive
-    @Min(value = 1, message = "Useful life years must be greater than 0")
-    @Column(nullable = false)
-    private Integer usefulLifeYears;
 
-    @Min(value = 0, message = "Salvage value must be greater than or equal to 0")
-    @Column(nullable = false)
+    @Min(1)
+    private int usefulLifeYears;
+
+    @Min(0)
     private Double salvageValue;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+    // getters/setters
 }
