@@ -3,19 +3,27 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.DepreciationRule;
 import com.example.demo.repository.DepreciationRuleRepository;
 import com.example.demo.service.DepreciationRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class DepreciationRuleServiceImpl implements DepreciationRuleService {
-    private final DepreciationRuleRepository repo;
-    public DepreciationRuleServiceImpl(DepreciationRuleRepository repo) { this.repo = repo; }
+
+    @Autowired
+    private DepreciationRuleRepository repository;
 
     @Override
-    public DepreciationRule createRule(DepreciationRule r) {
-        if (r.getUsefulLifeYears() <= 0 || r.getSalvageValue() < 0) throw new IllegalArgumentException("Invalid values");
-        if (!"STRAIGHT_LINE".equals(r.getMethod()) && !"DECLINING_BALANCE".equals(r.getMethod())) throw new IllegalArgumentException("Method");
-        return repo.save(r);
+    public DepreciationRule saveRule(DepreciationRule rule) {
+        if (rule.getUsefulLifeYears() <= 0 || rule.getSalvageValue() < 0) {
+            throw new IllegalArgumentException("Invalid depreciation rule");
+        }
+        return repository.save(rule);
     }
-    @Override public List<DepreciationRule> getAllRules() { return repo.findAll(); }
+
+    @Override
+    public List<DepreciationRule> getAllRules() {
+        return repository.findAll();
+    }
 }
