@@ -1,42 +1,17 @@
 package com.example.demo.controller;
-
 import com.example.demo.entity.Asset;
 import com.example.demo.service.AssetService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/assets")
+@RestController @RequestMapping("/api/assets")
 public class AssetController {
-
-    @Autowired
-    private AssetService assetService;
-
-    @PostMapping
-    public Asset createAsset(@RequestBody Asset asset) {
-        return assetService.createAsset(asset);
+    private final AssetService service;
+    public AssetController(AssetService service) { this.service = service; }
+    @PostMapping("/{vendorId}/{ruleId}") public ResponseEntity<Asset> create(@PathVariable Long vendorId, @PathVariable Long ruleId, @RequestBody Asset asset) {
+        return ResponseEntity.ok(service.createAsset(vendorId, ruleId, asset));
     }
-
-    @GetMapping("/{id}")
-    public Asset getAssetById(@PathVariable Long id) {
-        return assetService.getAssetById(id);
-    }
-
-    @GetMapping
-    public List<Asset> getAllAssets() {
-        return assetService.getAllAssets();
-    }
-
-    @GetMapping("/status/{status}")
-    public List<Asset> getAssetsByStatus(@PathVariable String status) {
-        return assetService.getAssetsByStatus(status);
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteAsset(@PathVariable Long id) {
-        assetService.deleteAssetById(id);
-        return "Asset deleted successfully";
-    }
+    @GetMapping public ResponseEntity<?> getAll() { return ResponseEntity.ok(service.getAllAssets()); }
+    @GetMapping("/{id}") public ResponseEntity<?> getById(@PathVariable Long id) { return ResponseEntity.ok(service.getAsset(id)); }
+    @GetMapping("/status/{status}") public ResponseEntity<?> getByStatus(@PathVariable String status) { return ResponseEntity.ok(service.getAssetsByStatus(status)); }
 }
