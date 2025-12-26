@@ -11,22 +11,22 @@ public class AssetDisposal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "asset_id")
+    @OneToOne @JoinColumn(name = "asset_id")
     private Asset asset;
 
     private String disposalMethod;
     private Double disposalValue;
     private LocalDate disposalDate;
 
-    @ManyToOne
-    @JoinColumn(name = "approved_by_id")
+    @ManyToOne @JoinColumn(name = "approved_by_id")
     private User approvedBy;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    // No-arg constructor
     public AssetDisposal() {}
 
+    // Parameterized constructor (PDF 2.7)
     public AssetDisposal(Asset asset, String disposalMethod, Double disposalValue, LocalDate disposalDate, User approvedBy) {
         this.asset = asset;
         this.disposalMethod = disposalMethod;
@@ -35,6 +35,7 @@ public class AssetDisposal {
         this.approvedBy = approvedBy;
     }
 
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Asset getAsset() { return asset; }
