@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+
 import com.example.demo.entity.Asset;
 import com.example.demo.service.AssetService;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,17 @@ public class AssetController {
     private final AssetService service;
     public AssetController(AssetService service) { this.service = service; }
 
-    @PostMapping("/{vId}/{rId}")
-    public Asset create(@PathVariable Long vId, @PathVariable Long rId, @RequestBody Asset a) {
-        return service.createAsset(vId, rId, a);
+    @PostMapping("/{vendorId}/{ruleId}")
+    public Asset create(@PathVariable Long vendorId, @PathVariable Long ruleId, @RequestBody Asset a) {
+        return service.createAsset(vendorId, ruleId, a);
     }
-    @GetMapping public List<Asset> getAll() { return service.getAllAssets(); }
-    @GetMapping("/{id}") public Asset getOne(@PathVariable Long id) { return service.getAsset(id); }
-    @GetMapping("/status/{status}") public List<Asset> getStatus(@PathVariable String status) { return service.getAssetsByStatus(status); }
+
+    @GetMapping
+    public List<Asset> list() { return service.getAllAssets(); }
+
+    @GetMapping("/status/{status}")
+    public List<Asset> listStatus(@PathVariable String status) { return service.getAssetsByStatus(status); }
+
+    @GetMapping("/{id}")
+    public Asset get(@PathVariable Long id) { return service.getAsset(id); }
 }
