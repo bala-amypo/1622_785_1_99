@@ -1,34 +1,22 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.DepreciationRule;
-import com.example.demo.service.DepreciationRuleService;
-import jakarta.validation.Valid;
+import com.example.demo.entity.AssetDisposal;
+import com.example.demo.service.AssetDisposalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/rules")
-public class DepreciationRuleController {
+@RequestMapping("/api/disposals")
+public class AssetDisposalController {
+    @Autowired private AssetDisposalService service;
 
-    private final DepreciationRuleService ruleService;
-
-    public DepreciationRuleController(DepreciationRuleService ruleService) {
-        this.ruleService = ruleService;
+    @PostMapping("/request/{assetId}")
+    public AssetDisposal req(@PathVariable Long assetId, @RequestBody AssetDisposal d) {
+        return service.requestDisposal(assetId, d);
     }
 
-    @PostMapping
-    public DepreciationRule createRule(@Valid @RequestBody DepreciationRule rule) {
-        return ruleService.saveRule(rule);
-    }
-
-    @GetMapping
-    public List<DepreciationRule> getAllRules() {
-        return ruleService.getAllRules();
-    }
-
-    @GetMapping("/{id}")
-    public DepreciationRule getRuleById(@PathVariable Long id) {
-        return ruleService.getRuleById(id);
+    @PutMapping("/approve/{dId}/{adminId}")
+    public AssetDisposal app(@PathVariable Long dId, @PathVariable Long adminId) {
+        return service.approveDisposal(dId, adminId);
     }
 }
