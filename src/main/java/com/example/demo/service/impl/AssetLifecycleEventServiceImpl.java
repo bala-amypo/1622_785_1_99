@@ -1,11 +1,9 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.Asset;
-import com.example.demo.entity.AssetLifecycleEvent;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.AssetLifecycleEventRepository;
-import com.example.demo.repository.AssetRepository;
+import com.example.demo.entity.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.AssetLifecycleEventService;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,31 +13,18 @@ public class AssetLifecycleEventServiceImpl implements AssetLifecycleEventServic
     private final AssetLifecycleEventRepository eventRepo;
     private final AssetRepository assetRepo;
 
-    public AssetLifecycleEventServiceImpl(AssetLifecycleEventRepository eventRepo, AssetRepository assetRepo) {
-        this.eventRepo = eventRepo;
-        this.assetRepo = assetRepo;
+    public AssetLifecycleEventServiceImpl(AssetLifecycleEventRepository er, AssetRepository ar) {
+        this.eventRepo = er; this.assetRepo = ar;
     }
 
     @Override
-    public AssetLifecycleEvent logEvent(Long assetId, AssetLifecycleEvent event) {
-        Asset asset = assetRepo.findById(assetId)
-                .orElseThrow(() -> new ResourceNotFoundException("Asset not found"));
-
-        // PDF Rule 2.6 & 6.4
-        if (event.getEventType() == null || event.getEventType().isEmpty())
-            throw new IllegalArgumentException("Event type required");
-        if (event.getEventDescription() == null || event.getEventDescription().trim().isEmpty())
-            throw new IllegalArgumentException("Description cannot be blank");
-        if (event.getEventDate() != null && event.getEventDate().isAfter(LocalDate.now()))
-            throw new IllegalArgumentException("Event date cannot be in future");
-
-        event.setAsset(asset);
-        return eventRepo.save(event);
+    public AssetLifecycleEvent logEvent(Long assetId, AssetLifecycleEvent e) {
+        Asset a = assetRepo.findById(assetId).orElseThrow(() -> new ResourceNotFoundException("Asset"));
+        if (e.getEventDate().isAfter(LocalDate.now())) throw new IllegalArgumentException("Future Date");
+        if (e.getEventDescription() == null || e.getEventDescription().isEmpty()) throw new IllegalArgumentException("Empty Desc");
+        e.setAsset(a);
+        return eventRepo.save(e);
     }
 
-    @Override
-    public List<AssetLifecycleEvent> getEventsForAsset(Long assetId) {
-        if (!assetRepo.existsById(assetId)) throw new ResourceNotFoundException("Asset not found");
-        return eventRepo.findByAssetIdOrderByEventDateDesc(assetId);
-    }
+    @Override public List<AssetLifecycleEvent> getEventsForAsset(Long id) { return eventRepo.findByAssetIdOrderByEventDateDesc(id); }
 }

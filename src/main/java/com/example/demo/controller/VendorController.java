@@ -10,10 +10,6 @@ import java.util.List;
 public class VendorController {
     private final VendorService service;
     public VendorController(VendorService service) { this.service = service; }
-
-    @PostMapping
-    public Vendor create(@RequestBody Vendor vendor) { return service.createVendor(vendor); }
-
-    @GetMapping
-    public List<Vendor> list() { return service.getAllVendors(); }
+    @PostMapping public Vendor create(@RequestBody Vendor v) { return service.createVendor(v); }
+    @GetMapping public List<Vendor> list() { return service.getAllVendors(); }
 }

@@ -13,7 +13,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Vendor createVendor(Vendor v) {
-        if(repo.findByVendorName(v.getVendorName()).isPresent()) throw new IllegalArgumentException("Duplicate");
+        if (repo.findByVendorName(v.getVendorName()).isPresent()) throw new IllegalArgumentException("Exists");
         return repo.save(v);
     }
     @Override public List<Vendor> getAllVendors() { return repo.findAll(); }

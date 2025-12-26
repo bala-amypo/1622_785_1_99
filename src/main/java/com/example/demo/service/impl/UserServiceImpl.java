@@ -1,11 +1,9 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.Role;
-import com.example.demo.entity.User;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.entity.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.UserService;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,26 +18,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User registerUser(User user) {
-        if (userRepo.findByEmail(user.getEmail()).isPresent()) 
-            throw new IllegalArgumentException("Email exists");
-        
-        user.setPassword(encoder.encode(user.getPassword()));
-        
-        Role userRole = roleRepo.findByName("USER")
-                .orElseGet(() -> roleRepo.save(new Role("USER")));
-        user.getRoles().add(userRole);
-        
-        return userRepo.save(user);
+    public User registerUser(User u) {
+        u.setPassword(encoder.encode(u.getPassword()));
+        Role userRole = roleRepo.findByName("USER").orElseGet(() -> roleRepo.save(new Role("USER")));
+        u.getRoles().add(userRole);
+        return userRepo.save(u);
     }
-
-    @Override
-    public User findByEmail(String email) {
-        return userRepo.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
-
-    @Override
-    public User findById(Long id) {
-        return userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
+    @Override public User findByEmail(String e) { return userRepo.findByEmail(e).orElseThrow(() -> new ResourceNotFoundException("User")); }
+    @Override public User findById(Long id) { return userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User")); }
 }
