@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handle404(ResourceNotFoundException e) { return ResponseEntity.status(404).body(e.getMessage()); }
-    
+
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<?> handle400(IllegalArgumentException e) { return ResponseEntity.status(400).body(e.getMessage()); }
-    
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handle500(Exception e) { return ResponseEntity.status(500).body(e.getMessage()); }
+    public ResponseEntity<String> handle400(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handle500(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
 }
