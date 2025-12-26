@@ -11,26 +11,18 @@ public class JwtUtil {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String generateToken(String email, Long userId, Set<String> roles) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userId);
-        claims.put("email", email);
-        claims.put("roles", roles);
-        
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
-                .signWith(key)
-                .compact();
+            .setSubject(email)
+            .claim("userId", userId)
+            .claim("email", email)
+            .claim("roles", roles)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+            .signWith(key).compact();
     }
 
-    public Claims getClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-    }
-
+    public Claims getClaims(String token) { return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody(); }
     public boolean validateToken(String token) {
-        try { Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token); return true; } 
-        catch (Exception e) { return false; }
+        try { Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token); return true; } catch (Exception e) { return false; }
     }
 }

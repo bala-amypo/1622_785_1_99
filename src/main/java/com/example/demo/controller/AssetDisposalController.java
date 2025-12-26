@@ -9,14 +9,6 @@ import org.springframework.web.bind.annotation.*;
 public class AssetDisposalController {
     private final AssetDisposalService service;
     public AssetDisposalController(AssetDisposalService s) { this.service = s; }
-
-    @PostMapping("/request/{assetId}")
-    public AssetDisposal request(@PathVariable Long assetId, @RequestBody AssetDisposal disposal) {
-        return service.requestDisposal(assetId, disposal);
-    }
-
-    @PutMapping("/approve/{disposalId}/{adminId}")
-    public AssetDisposal approve(@PathVariable Long disposalId, @PathVariable Long adminId) {
-        return service.approveDisposal(disposalId, adminId);
-    }
+    @PostMapping("/request/{id}") public AssetDisposal req(@PathVariable Long id, @RequestBody AssetDisposal d) { return service.requestDisposal(id, d); }
+    @PutMapping("/approve/{dId}/{aId}") public AssetDisposal app(@PathVariable Long dId, @PathVariable Long aId) { return service.approveDisposal(dId, aId); }
 }

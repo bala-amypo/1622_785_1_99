@@ -10,14 +10,6 @@ import java.util.List;
 public class AssetLifecycleEventController {
     private final AssetLifecycleEventService service;
     public AssetLifecycleEventController(AssetLifecycleEventService s) { this.service = s; }
-
-    @PostMapping("/{assetId}")
-    public AssetLifecycleEvent log(@PathVariable Long assetId, @RequestBody AssetLifecycleEvent event) {
-        return service.logEvent(assetId, event);
-    }
-
-    @GetMapping("/asset/{assetId}")
-    public List<AssetLifecycleEvent> listForAsset(@PathVariable Long assetId) {
-        return service.getEventsForAsset(assetId);
-    }
+    @PostMapping("/{id}") public AssetLifecycleEvent log(@PathVariable Long id, @RequestBody AssetLifecycleEvent e) { return service.logEvent(id, e); }
+    @GetMapping("/asset/{id}") public List<AssetLifecycleEvent> list(@PathVariable Long id) { return service.getEventsForAsset(id); }
 }
