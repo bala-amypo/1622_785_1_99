@@ -15,13 +15,13 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String assetTag;
 
     private String assetName;
     private LocalDate purchaseDate;
     private Double purchaseCost;
-    private String status = "ACTIVE"; 
+    private String status = "ACTIVE"; // ACTIVE, MAINTENANCE, DISPOSED
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
