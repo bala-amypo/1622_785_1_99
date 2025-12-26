@@ -1,29 +1,43 @@
-package com.example.demo.service.impl;
 
-import com.example.demo.entity.*;
-import com.example.demo.repository.*;
+package com.example.demo.service.impl;
+import com.example.demo.entity.Role;
+import com.example.demo.entity.User;
+import com.example.demo.repository.RoleRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
-import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepo;
-    private final RoleRepository roleRepo;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository ur, RoleRepository rr, PasswordEncoder e) {
-        this.userRepo = ur; this.roleRepo = rr; this.encoder = e;
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.encoder = encoder;
     }
 
     @Override
-    public User registerUser(User u) {
-        u.setPassword(encoder.encode(u.getPassword()));
-        Role userRole = roleRepo.findByName("USER").orElseGet(() -> roleRepo.save(new Role("USER")));
-        u.getRoles().add(userRole);
-        return userRepo.save(u);
+    @Transactional
+    public User registerUser(Map<String, String> userData) {
+        String email = userData.get("email");
+        if(email==null || email.isEmpty()) throw new IllegalArgumentException("Email required");
+        if (userRepository.findByEmail(email).isPresent()) throw new IllegalArgumentException("Email already exists");
+
+        User user = new User();
+        user.setName(userData.get("name"));
+        user.setEmail(email);
+        user.setPassword(encoder.encode(userData.get("password")));
+        
+        Optional<Role> roleOpt = roleRepository.findByName("USER");
+        Role userRole = roleOpt.orElseGet(() -> roleRepository.save(new Role("USER")));
+        user.getRoles().add(userRole);
+        return userRepository.save(user);
     }
-    @Override public User findByEmail(String e) { return userRepo.findByEmail(e).orElseThrow(() -> new ResourceNotFoundException("User")); }
-    @Override public User findById(Long id) { return userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User")); }
 }
