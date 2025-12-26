@@ -1,12 +1,12 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Asset;
-import com.example.demo.entity.Vendor;
+import com.example.demo.entity.DepreciationRule;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
+import java.util.Optional;
 
-public interface AssetRepository extends JpaRepository<Asset, Long> {
-    boolean existsByAssetTag(String assetTag);
-    List<Asset> findByStatus(String status);
-    List<Asset> findByVendor(Vendor vendor);
+/**
+ * PDF Rule 4.5: Extra method findByRuleName required.
+ */
+public interface DepreciationRuleRepository extends JpaRepository<DepreciationRule, Long> {
+    Optional<DepreciationRule> findByRuleName(String ruleName);
 }
