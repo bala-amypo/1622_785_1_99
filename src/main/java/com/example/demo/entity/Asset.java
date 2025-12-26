@@ -7,27 +7,22 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "assets")
 public class Asset {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String assetTag;
     private String assetName;
     private LocalDate purchaseDate;
     private Double purchaseCost;
-    private String status = "ACTIVE"; 
+    private String status = "ACTIVE";
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "vendor_id")
+    @ManyToOne @JoinColumn(name = "vendor_id")
     private Vendor vendor;
-
-    @ManyToOne
-    @JoinColumn(name = "rule_id")
+    @ManyToOne @JoinColumn(name = "rule_id")
     private DepreciationRule depreciationRule;
 
     public Asset() {}
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getAssetTag() { return assetTag; }
@@ -40,8 +35,6 @@ public class Asset {
     public void setPurchaseCost(Double purchaseCost) { this.purchaseCost = purchaseCost; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public Vendor getVendor() { return vendor; }
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
     public DepreciationRule getDepreciationRule() { return depreciationRule; }

@@ -2,13 +2,11 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "vendors")
 public class Vendor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String vendorName;
@@ -16,20 +14,7 @@ public class Vendor {
     private String phone;
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "vendor")
-    private List<Asset> assets;
-
-    // No-arg constructor
     public Vendor() {}
-
-    // Parameterized constructor (PDF 2.4)
-    public Vendor(String vendorName, String contactEmail, String phone) {
-        this.vendorName = vendorName;
-        this.contactEmail = contactEmail;
-        this.phone = phone;
-    }
-
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getVendorName() { return vendorName; }
@@ -38,6 +23,4 @@ public class Vendor {
     public void setContactEmail(String contactEmail) { this.contactEmail = contactEmail; }
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

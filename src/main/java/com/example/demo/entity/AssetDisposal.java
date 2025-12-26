@@ -7,35 +7,18 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "asset_disposals")
 public class AssetDisposal {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OneToOne @JoinColumn(name = "asset_id")
     private Asset asset;
-
     private String disposalMethod;
     private Double disposalValue;
     private LocalDate disposalDate;
-
     @ManyToOne @JoinColumn(name = "approved_by_id")
     private User approvedBy;
-
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // No-arg constructor
     public AssetDisposal() {}
-
-    // Parameterized constructor (PDF 2.7)
-    public AssetDisposal(Asset asset, String disposalMethod, Double disposalValue, LocalDate disposalDate, User approvedBy) {
-        this.asset = asset;
-        this.disposalMethod = disposalMethod;
-        this.disposalValue = disposalValue;
-        this.disposalDate = disposalDate;
-        this.approvedBy = approvedBy;
-    }
-
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Asset getAsset() { return asset; }
@@ -48,6 +31,4 @@ public class AssetDisposal {
     public void setDisposalDate(LocalDate disposalDate) { this.disposalDate = disposalDate; }
     public User getApprovedBy() { return approvedBy; }
     public void setApprovedBy(User approvedBy) { this.approvedBy = approvedBy; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
