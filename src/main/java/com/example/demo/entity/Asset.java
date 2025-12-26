@@ -2,41 +2,41 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "assets")
+@Table(name = "assets", uniqueConstraints = @UniqueConstraint(columnNames = "assetTag"))
 public class Asset {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
     private String assetTag;
     private String assetName;
     private LocalDate purchaseDate;
-    private Double purchaseCost;
+    private double purchaseCost;
     private String status = "ACTIVE";
-    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToOne @JoinColumn(name = "vendor_id")
+    @ManyToOne
     private Vendor vendor;
-    @ManyToOne @JoinColumn(name = "rule_id")
+
+    @ManyToOne
     private DepreciationRule depreciationRule;
 
-    public Asset() {}
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public String getAssetTag() { return assetTag; }
-    public void setAssetTag(String assetTag) { this.assetTag = assetTag; }
     public String getAssetName() { return assetName; }
-    public void setAssetName(String assetName) { this.assetName = assetName; }
     public LocalDate getPurchaseDate() { return purchaseDate; }
-    public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
-    public Double getPurchaseCost() { return purchaseCost; }
-    public void setPurchaseCost(Double purchaseCost) { this.purchaseCost = purchaseCost; }
+    public double getPurchaseCost() { return purchaseCost; }
     public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
     public Vendor getVendor() { return vendor; }
-    public void setVendor(Vendor vendor) { this.vendor = vendor; }
     public DepreciationRule getDepreciationRule() { return depreciationRule; }
+
+    public void setAssetTag(String assetTag) { this.assetTag = assetTag; }
+    public void setAssetName(String assetName) { this.assetName = assetName; }
+    public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
+    public void setPurchaseCost(double purchaseCost) { this.purchaseCost = purchaseCost; }
+    public void setStatus(String status) { this.status = status; }
+    public void setVendor(Vendor vendor) { this.vendor = vendor; }
     public void setDepreciationRule(DepreciationRule depreciationRule) { this.depreciationRule = depreciationRule; }
 }
