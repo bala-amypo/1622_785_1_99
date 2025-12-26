@@ -4,12 +4,6 @@ import com.example.demo.entity.Vendor;
 import java.util.List;
 
 public interface VendorService {
-
-    Vendor saveVendor(Vendor vendor);
-
-    Vendor getVendorById(Long id);
-
+    Vendor createVendor(Vendor vendor);
     List<Vendor> getAllVendors();
-
-    Vendor getVendorByName(String name);
 }
