@@ -17,16 +17,14 @@ public class AssetDisposal {
     @ManyToOne
     private Asset asset;
 
-    @ManyToOne
-    private User approvedBy;
-
     public Long getId() { return id; }
+    public String getDisposalMethod() { return disposalMethod; }
+    public double getDisposalValue() { return disposalValue; }
+    public LocalDate getDisposalDate() { return disposalDate; }
     public Asset getAsset() { return asset; }
-    public User getApprovedBy() { return approvedBy; }
 
-    public void setAsset(Asset asset) { this.asset = asset; }
-    public void setApprovedBy(User approvedBy) { this.approvedBy = approvedBy; }
     public void setDisposalMethod(String disposalMethod) { this.disposalMethod = disposalMethod; }
     public void setDisposalValue(double disposalValue) { this.disposalValue = disposalValue; }
     public void setDisposalDate(LocalDate disposalDate) { this.disposalDate = disposalDate; }
+    public void setAsset(Asset asset) { this.asset = asset; }
 }
