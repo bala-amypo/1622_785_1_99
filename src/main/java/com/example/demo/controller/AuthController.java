@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.UserResponse;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
@@ -14,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,7 +42,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
         try {
             // Convert DTO to Map<String,String> for service
-            Map<String,String> userData = Map.of(
+            var userData = java.util.Map.of(
                     "name", req.getName(),
                     "email", req.getEmail(),
                     "password", req.getPassword()
@@ -49,19 +50,20 @@ public class AuthController {
 
             User user = userService.registerUser(userData);
 
-            // Build response
-            Map<String,Object> response = Map.of(
-                    "id", user.getId(),
-                    "name", user.getName(),
-                    "email", user.getEmail()
-            );
+            // Build safe DTO response to avoid infinite recursion
+            UserResponse resp = new UserResponse();
+            resp.setId(user.getId());
+            resp.setName(user.getName());
+            resp.setEmail(user.getEmail());
+            resp.setCreatedAt(user.getCreatedAt());
+            resp.setRoles(user.getRoles().stream().map(r -> r.getName()).collect(Collectors.toSet()));
 
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(resp);
 
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(Map.of("error", "Internal server error"));
+            return ResponseEntity.status(500).body(java.util.Map.of("error", "Internal server error"));
         }
     }
 
@@ -78,8 +80,7 @@ public class AuthController {
             User user = userRepo.findByEmail(req.getEmail())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            Set<String> roles = user.getRoles()
-                    .stream()
+            Set<String> roles = user.getRoles().stream()
                     .map(r -> r.getName())
                     .collect(Collectors.toSet());
 
@@ -90,7 +91,7 @@ public class AuthController {
             return ResponseEntity.ok(authResponse);
 
         } catch (Exception e) {
-            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+            return ResponseEntity.status(401).body(java.util.Map.of("error", "Invalid credentials"));
         }
     }
 }
