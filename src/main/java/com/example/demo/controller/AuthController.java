@@ -1,4 +1,3 @@
-
 package com.example.demo.controller;
 import com.example.demo.dto.*;
 import com.example.demo.entity.User;
@@ -52,5 +51,3 @@ public class AuthController {
         }
     }
 }
-
-
