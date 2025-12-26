@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Vendor;
-import java.util.List;
+import com.example.demo.entity.User;
 
-public interface VendorService {
-    Vendor createVendor(Vendor vendor);
-    List<Vendor> getAllVendors();
+public interface UserService {
+    User registerUser(User user);
+    User findByEmail(String email);
+    User findById(Long id);
 }
