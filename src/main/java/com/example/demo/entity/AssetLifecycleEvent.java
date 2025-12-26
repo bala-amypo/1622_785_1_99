@@ -1,31 +1,26 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "asset_lifecycle_events")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class AssetLifecycleEvent {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "asset_id")
     private Asset asset;
 
-    @NotBlank
     private String eventType;
-
+    private String eventDescription;
     private LocalDate eventDate;
-
-    private String remarks;
+    private LocalDateTime loggedAt = LocalDateTime.now();
 }

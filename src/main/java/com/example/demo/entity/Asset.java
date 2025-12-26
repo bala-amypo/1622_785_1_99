@@ -1,43 +1,34 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "assets")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Asset {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String assetTag;
 
-    @NotBlank
     private String assetName;
-
-    @Min(0)
-    private double purchaseCost;
-
     private LocalDate purchaseDate;
-
-    @NotBlank
-    private String status;
+    private Double purchaseCost;
+    private String status = "ACTIVE"; 
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
+    @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
     @ManyToOne
+    @JoinColumn(name = "rule_id")
     private DepreciationRule depreciationRule;
 }

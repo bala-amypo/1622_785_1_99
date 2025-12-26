@@ -1,26 +1,23 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vendors")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Vendor {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String vendorName;
 
     private String contactEmail;
-    private String contactPhone;
+    private String phone;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

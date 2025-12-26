@@ -1,30 +1,24 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "depreciation_rules")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class DepreciationRule {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(unique = true)
     private String ruleName;
 
-    @Min(0)
-    private int usefulLifeYears;
-
-    @Min(0)
-    private double depreciationRate;
+    private String method; // STRAIGHT_LINE / DECLINING_BALANCE
+    private Integer usefulLifeYears;
+    private Double salvageValue;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
