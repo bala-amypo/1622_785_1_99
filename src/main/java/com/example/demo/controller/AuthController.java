@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
@@ -35,20 +36,36 @@ public class AuthController {
         this.userRepo = userRepo;
     }
 
+    // ------------------- REGISTER -------------------
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> register(@RequestBody Map<String, String> body) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
         try {
-            User user = userService.registerUser(body);
-            Map<String, Object> response = new HashMap<>();
-            response.put("id", user.getId());
-            response.put("email", user.getEmail());
-            response.put("name", user.getName());
+            // Convert DTO to Map<String,String> for service
+            Map<String,String> userData = Map.of(
+                    "name", req.getName(),
+                    "email", req.getEmail(),
+                    "password", req.getPassword()
+            );
+
+            User user = userService.registerUser(userData);
+
+            // Build response
+            Map<String,Object> response = Map.of(
+                    "id", user.getId(),
+                    "name", user.getName(),
+                    "email", user.getEmail()
+            );
+
             return ResponseEntity.ok(response);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
+            return ResponseEntity.status(500).body(Map.of("error", "Internal server error"));
         }
     }
 
+    // ------------------- LOGIN -------------------
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest req) {
         try {
@@ -68,10 +85,12 @@ public class AuthController {
 
             String token = jwtUtil.generateToken(user.getEmail(), user.getId(), roles);
 
-            return ResponseEntity.ok(new AuthResponse(token, user.getId(), user.getEmail(), roles));
+            AuthResponse authResponse = new AuthResponse(token, user.getId(), user.getEmail(), roles);
+
+            return ResponseEntity.ok(authResponse);
 
         } catch (Exception e) {
-            return ResponseEntity.status(401).body(Collections.singletonMap("error", "Invalid credentials"));
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
     }
 }
