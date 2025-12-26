@@ -1,49 +1,32 @@
 package com.example.demo.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.security.Key;
+import java.util.*;
 
 @Component
 public class JwtUtil {
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    private final String SECRET_KEY = "mysecretkey"; // Replace with secure key
-
-    // Generate token with email, userId, and roles
-    public String generateToken(String email, Long id, Set<String> roles) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("id", id);
-        claims.put("roles", roles);
+    public String generateToken(String email, Long userId, Set<String> roles) {
         return Jwts.builder()
-                   .setClaims(claims)
-                   .setSubject(email)
-                   .setIssuedAt(new Date())
-                   .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
-                   .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                   .compact();
+                .setSubject(email)
+                .claim("userId", userId)
+                .claim("email", email)
+                .claim("roles", roles)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(key).compact();
     }
 
-    // Extract claims
-    public Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                   .setSigningKey(SECRET_KEY)
-                   .parseClaimsJws(token)
-                   .getBody();
+    public Claims getClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
-    // Extract email
-    public String extractEmail(String token) {
-        return extractAllClaims(token).getSubject();
-    }
-
-    // Check if token is expired
-    public Boolean isTokenExpired(String token) {
-        return extractAllClaims(token).getExpiration().before(new Date());
+    public boolean validateToken(String token) {
+        try { Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token); return true; } 
+        catch (Exception e) { return false; }
     }
 }
