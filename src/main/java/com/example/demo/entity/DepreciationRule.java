@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "depreciation_rules", uniqueConstraints = @UniqueConstraint(columnNames = "ruleName"))
+@Table(name = "depreciation_rules")
 public class DepreciationRule {
 
     @Id
