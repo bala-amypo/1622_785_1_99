@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.RegisterRequestDto;
 import com.example.demo.dto.UserResponse;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
@@ -38,8 +37,9 @@ public class AuthController {
         this.userRepo = userRepo;
     }
 
+    // Use existing AuthRequest for registration
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@RequestBody RegisterRequestDto req) {
+    public ResponseEntity<UserResponse> register(@RequestBody AuthRequest req) {
         User user = userService.registerUser(
                 Map.of(
                         "name", req.getName(),
