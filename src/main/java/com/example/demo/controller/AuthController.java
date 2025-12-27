@@ -2,8 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.RegisterRequestDto;
 import com.example.demo.dto.UserResponse;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,23 +30,18 @@ public class AuthController {
     private final UserService userService;
     private final UserRepository userRepo;
 
-    public AuthController(AuthenticationManager authManager,
-                          JwtUtil jwtUtil,
-                          UserService userService,
-                          UserRepository userRepo) {
+    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil,
+                          UserService userService, UserRepository userRepo) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.userService = userService;
         this.userRepo = userRepo;
     }
 
-    // ------------------- REGISTER -------------------
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
-
-        // ⭐ Let service throw validation exceptions naturally
+    public ResponseEntity<UserResponse> register(@RequestBody RegisterRequestDto req) {
         User user = userService.registerUser(
-                java.util.Map.of(
+                Map.of(
                         "name", req.getName(),
                         "email", req.getEmail(),
                         "password", req.getPassword()
@@ -56,46 +53,28 @@ public class AuthController {
         resp.setName(user.getName());
         resp.setEmail(user.getEmail());
         resp.setCreatedAt(user.getCreatedAt());
-        resp.setRoles(
-                user.getRoles().stream()
-                        .map(r -> r.getName())
-                        .collect(Collectors.toSet())
-        );
+        resp.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
 
-        // ⭐ Return 201 (also acceptable by tests)
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 
-    // ------------------- LOGIN -------------------
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest req) {
+        try {
+            Authentication authentication = authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Authentication authentication = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        req.getEmail(),
-                        req.getPassword()
-                )
-        );
+            User user = userRepo.findByEmail(req.getEmail()).orElseThrow();
+            Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
+            String token = jwtUtil.generateToken(user.getEmail(), user.getId(), roles);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            return ResponseEntity.ok(new AuthResponse(token, user.getId(), user.getEmail(), roles));
 
-        User user = userRepo.findByEmail(req.getEmail())
-                .orElseThrow(); // ⭐ let Spring return 500/401 if unexpected
-
-        Set<String> roles = user.getRoles().stream()
-                .map(r -> r.getName())
-                .collect(Collectors.toSet());
-
-        String token = jwtUtil.generateToken(
-                user.getEmail(),
-                user.getId(),
-                roles
-        );
-
-        // ⭐ token field MUST exist
-        AuthResponse authResponse =
-                new AuthResponse(token, user.getId(), user.getEmail(), roles);
-
-        return ResponseEntity.ok(authResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid credentials"));
+        }
     }
 }
