@@ -15,7 +15,7 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @JsonIgnore   // 🔥 THIS LINE PREVENTS STACKOVERFLOW
+    @JsonIgnore  // prevents StackOverflow during JSON serialization
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
@@ -26,5 +26,9 @@ public class Role {
     }
 
     public Long getId() { return id; }
+
     public String getName() { return name; }
+
+    public Set<User> getUsers() { return users; }
+    public void setUsers(Set<User> users) { this.users = users; }
 }
