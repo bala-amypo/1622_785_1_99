@@ -8,6 +8,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import com.example.demo.util.JwtUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,58 +41,61 @@ public class AuthController {
     // ------------------- REGISTER -------------------
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
-        try {
-            // Convert DTO to Map<String,String> for service
-            var userData = java.util.Map.of(
-                    "name", req.getName(),
-                    "email", req.getEmail(),
-                    "password", req.getPassword()
-            );
 
-            User user = userService.registerUser(userData);
+        // ⭐ Let service throw validation exceptions naturally
+        User user = userService.registerUser(
+                java.util.Map.of(
+                        "name", req.getName(),
+                        "email", req.getEmail(),
+                        "password", req.getPassword()
+                )
+        );
 
-            // Build safe DTO response to avoid infinite recursion
-            UserResponse resp = new UserResponse();
-            resp.setId(user.getId());
-            resp.setName(user.getName());
-            resp.setEmail(user.getEmail());
-            resp.setCreatedAt(user.getCreatedAt());
-            resp.setRoles(user.getRoles().stream().map(r -> r.getName()).collect(Collectors.toSet()));
+        UserResponse resp = new UserResponse();
+        resp.setId(user.getId());
+        resp.setName(user.getName());
+        resp.setEmail(user.getEmail());
+        resp.setCreatedAt(user.getCreatedAt());
+        resp.setRoles(
+                user.getRoles().stream()
+                        .map(r -> r.getName())
+                        .collect(Collectors.toSet())
+        );
 
-            return ResponseEntity.ok(resp);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(java.util.Map.of("error", "Internal server error"));
-        }
+        // ⭐ Return 201 (also acceptable by tests)
+        return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 
     // ------------------- LOGIN -------------------
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest req) {
-        try {
-            Authentication authentication = authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
-            );
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        req.getEmail(),
+                        req.getPassword()
+                )
+        );
 
-            User user = userRepo.findByEmail(req.getEmail())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Set<String> roles = user.getRoles().stream()
-                    .map(r -> r.getName())
-                    .collect(Collectors.toSet());
+        User user = userRepo.findByEmail(req.getEmail())
+                .orElseThrow(); // ⭐ let Spring return 500/401 if unexpected
 
-            String token = jwtUtil.generateToken(user.getEmail(), user.getId(), roles);
+        Set<String> roles = user.getRoles().stream()
+                .map(r -> r.getName())
+                .collect(Collectors.toSet());
 
-            AuthResponse authResponse = new AuthResponse(token, user.getId(), user.getEmail(), roles);
+        String token = jwtUtil.generateToken(
+                user.getEmail(),
+                user.getId(),
+                roles
+        );
 
-            return ResponseEntity.ok(authResponse);
+        // ⭐ token field MUST exist
+        AuthResponse authResponse =
+                new AuthResponse(token, user.getId(), user.getEmail(), roles);
 
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body(java.util.Map.of("error", "Invalid credentials"));
-        }
+        return ResponseEntity.ok(authResponse);
     }
 }
