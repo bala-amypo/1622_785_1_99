@@ -29,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(req.getEmail());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
 
+        // Assign default USER role
         Role userRole = roleRepository.findByName("USER")
                 .orElseGet(() -> new Role("USER"));
         user.getRoles().add(userRole);

@@ -13,7 +13,6 @@ import java.util.Set;
 @Component
 public class JwtUtil {
 
-    // ✅ FIX 1: Stable secret key (DO NOT generate dynamically)
     private static final String SECRET =
             "my-super-secure-jwt-secret-key-my-super-secure";
 
@@ -21,14 +20,12 @@ public class JwtUtil {
             SECRET.getBytes(StandardCharsets.UTF_8)
     );
 
-    // ✅ FIX 2: roles must be List, not Set
     public String generateToken(String email, Long userId, Set<String> roles) {
-
         return Jwts.builder()
                 .setSubject(email)
                 .claim("email", email)
                 .claim("userId", userId)
-                .claim("roles", List.copyOf(roles)) // ⭐ critical
+                .claim("roles", List.copyOf(roles))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .signWith(key, SignatureAlgorithm.HS256)
