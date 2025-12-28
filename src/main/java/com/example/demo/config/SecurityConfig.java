@@ -29,14 +29,19 @@ public class SecurityConfig {
             .csrf(c -> c.disable())
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> a
+                // Public endpoints
                 .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/").permitAll()
-                .requestMatchers("/api/vendors/**").permitAll()
-                .requestMatchers("/api/rules/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/events/**").permitAll()  // <-- Added this line
+                // Vendor and Rule endpoints allowed for Swagger testing
+                .requestMatchers("/api/vendors/**", "/api/rules/**").permitAll()
+                // Asset & Event endpoints require authentication (JWT)
+                .requestMatchers("/api/assets/**", "/api/events/**").authenticated()
+                // Disposal approve requires ADMIN role
                 .requestMatchers(HttpMethod.POST, "/api/disposals/approve/**").hasRole("ADMIN")
+                // Any other requests authenticated
                 .anyRequest().authenticated()
             )
             .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+            // JWT filter
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
