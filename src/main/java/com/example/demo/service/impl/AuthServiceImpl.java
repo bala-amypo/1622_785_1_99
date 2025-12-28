@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -29,10 +32,21 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(req.getEmail());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
 
-        // Assign default USER role
-        Role userRole = roleRepository.findByName("USER")
-                .orElseGet(() -> new Role("USER"));
-        user.getRoles().add(userRole);
+        Set<String> requestedRoles = req.getRoles();
+        Set<Role> rolesToAssign = new HashSet<>();
+
+        if (requestedRoles == null || requestedRoles.isEmpty()) {
+            // default USER role
+            Role defaultRole = roleRepository.findByName("USER").orElseGet(() -> new Role("USER"));
+            rolesToAssign.add(defaultRole);
+        } else {
+            for (String r : requestedRoles) {
+                Role role = roleRepository.findByName(r).orElseGet(() -> new Role(r));
+                rolesToAssign.add(role);
+            }
+        }
+
+        user.setRoles(rolesToAssign);
 
         return userRepository.save(user);
     }

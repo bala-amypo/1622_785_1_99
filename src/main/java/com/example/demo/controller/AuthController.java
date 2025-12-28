@@ -19,7 +19,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterRequestDto req) {
         User savedUser = authService.register(req);
-        return ResponseEntity.status(201).body(savedUser);
+        return ResponseEntity.status(200).body(savedUser);
     }
 
     // Login
