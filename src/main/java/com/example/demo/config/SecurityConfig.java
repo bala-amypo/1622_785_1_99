@@ -30,8 +30,9 @@ public class SecurityConfig {
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> a
                 .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/").permitAll()
-                .requestMatchers("/api/vendors/**").permitAll()   // Vendors open
-                .requestMatchers("/api/rules/**").permitAll()     // Rules open
+                .requestMatchers("/api/vendors/**").permitAll()
+                .requestMatchers("/api/rules/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/events/**").permitAll()  // <-- Added this line
                 .requestMatchers(HttpMethod.POST, "/api/disposals/approve/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
