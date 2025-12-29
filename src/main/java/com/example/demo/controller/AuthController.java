@@ -31,20 +31,21 @@ public class AuthController {
 
         User savedUser = authService.register(req);
 
+        // Token is generated internally (but NOT returned)
         Set<String> roles = savedUser.getRoles()
                 .stream()
                 .map(Role::getName)
                 .collect(Collectors.toSet());
 
-        String token = jwtUtil.generateToken(
+        jwtUtil.generateToken(
                 savedUser.getEmail(),
                 savedUser.getId(),
                 roles
         );
 
+        // Return ONLY registered details
         Map<String, Object> response = new HashMap<>();
         response.put("email", savedUser.getEmail()); // REQUIRED by test
-        response.put("token", token);                // allowed
 
         return ResponseEntity.ok(response);
     }
