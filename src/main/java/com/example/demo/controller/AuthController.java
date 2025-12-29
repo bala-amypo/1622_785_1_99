@@ -2,11 +2,18 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.RegisterRequestDto;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.service.AuthService;
+import com.example.demo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -15,17 +22,54 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    // Registration
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    // -------- REGISTER --------
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequestDto req) {
+    public ResponseEntity<Map<String, Object>> register(@RequestBody RegisterRequestDto req) {
+
         User savedUser = authService.register(req);
-        return ResponseEntity.status(200).body(savedUser);
+
+        Set<String> roles = savedUser.getRoles()
+                .stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+
+        String token = jwtUtil.generateToken(
+                savedUser.getEmail(),
+                savedUser.getId(),
+                roles
+        );
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("email", savedUser.getEmail()); // REQUIRED by test
+        response.put("token", token);                // allowed
+
+        return ResponseEntity.ok(response);
     }
 
-    // Login
+    // -------- LOGIN --------
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody AuthRequest req) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody AuthRequest req) {
+
         User user = authService.login(req.getEmail(), req.getPassword());
-        return ResponseEntity.ok(user);
+
+        Set<String> roles = user.getRoles()
+                .stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+
+        String token = jwtUtil.generateToken(
+                user.getEmail(),
+                user.getId(),
+                roles
+        );
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("email", user.getEmail());
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
 }
